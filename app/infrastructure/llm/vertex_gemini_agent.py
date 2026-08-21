@@ -81,6 +81,11 @@ class VertexGeminiAgentAdapter(LLMAgentPort):
                 "Sen Vestel beyaz esya kullanim verisi uzerinde soru cevaplayan bir "
                 "asistansin. Sorulari elindeki tool'lari cagirarak cevapla, tool "
                 "sonucunu Turkce, kisa ve net bir cumleyle ozetle.\n"
+                "Elindeki tool'lar sadece cihaz tipi, program adi ve tarih araligina "
+                "gore calisir. Soru sehir, enerji tuketimi, kullanim suresi gibi "
+                "tool'larin kapsamadigi bir bilgiyi istiyorsa veya elindeki tool'larla "
+                "cevaplanamiyorsa, tahmin/uydurma yapma -- bu veriye erisimin olmadigini "
+                "acikca soyle.\n"
                 f"Bugunun tarihi: {date.today().isoformat()}"
             ),
         )
@@ -94,7 +99,15 @@ class VertexGeminiAgentAdapter(LLMAgentPort):
             return AgentAnswer(natural_language_answer=response.text)
 
         call = function_calls[0]
-        tool_result = self._execute_tool(call.name, dict(call.args))
+        try:
+            tool_result = self._execute_tool(call.name, dict(call.args))
+        except (UnsupportedQueryError, ValueError, KeyError):
+            return AgentAnswer(
+                natural_language_answer=(
+                    "Bu soruyu elimdeki verilerle cevaplayamiyorum -- desteklenen "
+                    "cihaz tipi ve tarih araligini kontrol edip tekrar sorabilir misin?"
+                )
+            )
 
         follow_up = chat.send_message(
             types.Part.from_function_response(name=call.name, response={"content": tool_result})

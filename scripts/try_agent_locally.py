@@ -32,6 +32,12 @@ DATA_PATH = Path(__file__).resolve().parent.parent / "data" / "mock_usage_data.c
 QUESTIONS = [
     "Son bir haftada en çok hangi çamaşır makinesi programı kullanıldı?",
     "Mart 2024'te en çok tercih edilen beyaz eşya hangisiydi?",
+    # Kapsam disi sorular -- agent tool'lariyla cevaplanamayan bir soruda
+    # tahmin/uydurma yapmiyor mu, gercekten "veriye erisimim yok" diyor mu?
+    "İstanbul'da en çok hangi çamaşır makinesi programı kullanıldı?",
+    "Klimaların ortalama enerji tüketimi ne kadar?",
+    "En az kullanılan fırın programı hangisi?",
+    "Genel olarak en çok kullanılan program nedir?",
 ]
 
 
