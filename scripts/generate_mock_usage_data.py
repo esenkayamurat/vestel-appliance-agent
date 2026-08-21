@@ -57,11 +57,11 @@ APPLIANCE_WEIGHTS = {
 }
 
 CITIES = {
-    "Istanbul": 0.35,
-    "Ankara": 0.20,
+    "Istanbul": 0.30,
+    "Ankara": 0.15,
     "Izmir": 0.15,
     "Bursa": 0.15,
-    "Antalya": 0.15,
+    "Manisa": 0.25,
 }
 
 
